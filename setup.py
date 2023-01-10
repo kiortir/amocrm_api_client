@@ -8,7 +8,7 @@ install_requires = [
     'async-timeout>=4.0.1',
     'attrs>=21.2.0',
     'charset-normalizer==2.0.9',
-    'frozenlist==1.2.0',
+    'frozenlist==1.3.3',
     'idna==3.3',
     'multidict==6.0.4',
     'pydantic>=1.8.2',
