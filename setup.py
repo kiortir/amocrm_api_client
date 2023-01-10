@@ -10,7 +10,7 @@ install_requires = [
     'charset-normalizer==2.0.9',
     'frozenlist==1.2.0',
     'idna==3.3',
-    'multidict==5.2.0',
+    'multidict==6.0.4',
     'pydantic>=1.8.2',
     'pydantic-collections>=0.2.0',
     'PyYAML>=6.0',
