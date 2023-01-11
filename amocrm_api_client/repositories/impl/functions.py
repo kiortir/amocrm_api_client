@@ -4,10 +4,20 @@ from typing import Optional
 from typing import Union
 from typing import Collection
 
+from qsparser import stringify
 
 __all__ = [
     "make_params",
 ]
+
+def getq(val):
+    if isinstance(val, dict):
+        return stringify(val)
+    else:
+        return val
+
+def generate_filters(filters: dict):
+    return {f"filter[{k}]": getq(v) for k, v in filters.items()}
 
 
 def make_params(
@@ -32,7 +42,7 @@ def make_params(
 
 
     if filter is not None:
-        filter_params = {f"filter[{k}]": v for k, v in filter.items()}
+        filter_params = generate_filters(filter)
         params.update(filter_params)
 
     clear_params = {k: v for k, v in params.items() if v is not None}

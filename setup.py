@@ -19,6 +19,7 @@ install_requires = [
     'yarl>=1.7.2',
     'PyJWT~=2.3.0',
     'aiofile~=3.7.3',
+    'qsparser==1.1.0'
 ]
 
 
