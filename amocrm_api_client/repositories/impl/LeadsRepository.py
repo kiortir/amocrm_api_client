@@ -29,8 +29,9 @@ class LeadsRepository(IPaginable[Lead], AbstractRepository):
         page: int = 1,
         limit: int = 250,
         query: Optional[Union[str, int]] = None,
+        filter: dict | None = None,
     ) -> Page[Lead]:
-        params = make_params(_with=_with, page=page, limit=limit, query=query)
+        params = make_params(_with=_with, page=page, limit=limit, query=query, filter=filter)
         response = await self._request_executor(
             lambda: self._make_request_function.request(
                 method=RequestMethod.GET,
@@ -38,6 +39,7 @@ class LeadsRepository(IPaginable[Lead], AbstractRepository):
                 parameters=params,
             )
         )
+        print(response.json)
         response.json["_embedded"] = response.json["_embedded"]["leads"]
         page = self._model_builder.build_model(Page[Lead], response.json)
         return page

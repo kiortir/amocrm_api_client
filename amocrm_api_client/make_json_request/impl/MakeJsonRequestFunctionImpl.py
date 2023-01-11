@@ -43,6 +43,7 @@ class MakeJsonRequestFunctionImpl(IMakeJsonRequestFunction):
                     headers=headers,
                     json=json,
                 ) as response:
+                    print(response.url)
                     status_code = response.status
                     headers = response.headers
                     binary_response = await response.read()

@@ -1,4 +1,4 @@
-from asyncio import get_event_loop
+import asyncio
 
 from amocrm_api_client import AmoCrmApiClient
 from amocrm_api_client import AmoCrmApiClientConfig
@@ -36,5 +36,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    event_loop = get_event_loop()
-    event_loop.run_until_complete(main())
+    asyncio.run(main())
