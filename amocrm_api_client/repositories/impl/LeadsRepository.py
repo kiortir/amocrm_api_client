@@ -39,7 +39,6 @@ class LeadsRepository(IPaginable[Lead], AbstractRepository):
                 parameters=params,
             )
         )
-        print(response.json)
         response.json["_embedded"] = response.json["_embedded"]["leads"]
         page = self._model_builder.build_model(Page[Lead], response.json)
         return page
