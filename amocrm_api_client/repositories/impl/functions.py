@@ -10,16 +10,6 @@ __all__ = [
     "make_params",
 ]
 
-def getq(val):
-    if isinstance(val, dict) or isinstance(val, list):
-        return stringify(val)
-    else:
-        return val
-
-def generate_filters(filters: dict):
-    return {f"filter[{k}]": getq(v) for k, v in filters.items()}
-
-
 def make_params(
     _with: Optional[Collection[str]] = None,
     page: int = 1,
@@ -38,12 +28,8 @@ def make_params(
         "page": page,
         "limit": limit,
         "query": query,
+        "filter": filter
     }
 
-
-    if filter is not None:
-        filter_params = generate_filters(filter)
-        params.update(filter_params)
-
     clear_params = {k: v for k, v in params.items() if v is not None}
-    return clear_params
+    return stringify(clear_params)
