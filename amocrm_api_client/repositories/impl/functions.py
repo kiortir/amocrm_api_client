@@ -11,7 +11,7 @@ __all__ = [
 ]
 
 def getq(val):
-    if isinstance(val, dict):
+    if isinstance(val, dict) or isinstance(val, list):
         return stringify(val)
     else:
         return val
