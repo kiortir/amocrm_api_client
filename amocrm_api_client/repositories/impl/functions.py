@@ -6,6 +6,8 @@ from typing import Collection
 
 from qsparser import stringify
 
+from models.Filters import BaseFilter
+
 __all__ = [
     "make_params",
 ]
@@ -15,12 +17,18 @@ def make_params(
     page: int = 1,
     limit: int = 250,
     query: Optional[Union[str, int]] = None,
-    filter: dict | None = None
+    filter: BaseFilter | None = None
 ) -> Mapping[str, Any]:
     str_with = None
 
     if _with is not None:
         str_with = ",".join(_with)
+
+    if filter is not None:
+        if not issubclass(filter, BaseException):
+            raise ValueError("Аргумент filter должен быть типа BaseFilter")
+
+        filter = filter.dict()
 
 
     params = {
