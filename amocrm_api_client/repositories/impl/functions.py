@@ -25,7 +25,7 @@ def make_params(
         str_with = ",".join(_with)
 
     if filter is not None:
-        if not issubclass(filter, BaseException):
+        if not issubclass(BaseException, filter):
             raise ValueError("Аргумент filter должен быть типа BaseFilter")
 
         filter = filter.dict()
