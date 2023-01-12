@@ -6,7 +6,7 @@ from typing import Collection
 
 from qsparser import stringify
 
-from models.Filters import BaseFilter
+from ...models.Filters import BaseFilter
 
 __all__ = [
     "make_params",
