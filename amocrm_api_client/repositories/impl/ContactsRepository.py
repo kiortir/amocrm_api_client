@@ -7,6 +7,8 @@ from amocrm_api_client.models import Contact
 
 from ..core import IPaginable
 from .AbstractRepository import AbstractRepository
+from ...models.Filters import CustomersListFilter
+
 
 from .functions import make_params
 
@@ -26,13 +28,16 @@ class ContactsRepository(IPaginable[Contact], AbstractRepository):
         page: int = 1,
         limit: int = 250,
         query: Optional[Union[str, int]] = None,
-        filter: str = None,
+        filter: CustomersListFilter | None = None,
     ) -> Page[Contact]:
-        params = make_params(_with=_with, page=page, limit=limit, query=query)
+        if filter is not None and not isinstance(filter, CustomersListFilter):
+            raise TypeError(
+                f"CustomersListFilter expected, got {type(filter)}")
+        params = make_params(_with=_with, page=page, limit=limit, query=query, filter=filter)
         response = await self._request_executor(
             lambda: self._make_request_function.request(
                 method=RequestMethod.GET,
-                path=f"/api/v4/contacts?filter[custom_fields_values][{field_id}][]={value}",
+                path=f"/api/v4/contacts",
                 parameters=params,
             )
         )

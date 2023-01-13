@@ -12,6 +12,7 @@ from amocrm_api_client.models import UpdateLead
 from .AbstractRepository import AbstractRepository
 from .functions import make_params
 from ..core import IPaginable
+from ...models.Filters import LeadListFilter
 
 
 __all__ = [
@@ -29,8 +30,11 @@ class LeadsRepository(IPaginable[Lead], AbstractRepository):
         page: int = 1,
         limit: int = 250,
         query: Optional[Union[str, int]] = None,
-        filter: dict | None = None,
+        filter: LeadListFilter | None = None,
     ) -> Page[Lead]:
+        if filter is not None and not isinstance(filter, LeadListFilter):
+            raise TypeError(f"LeadListFilter expected, got {type(filter)}")
+
         params = make_params(_with=_with, page=page, limit=limit, query=query, filter=filter)
         response = await self._request_executor(
             lambda: self._make_request_function.request(
