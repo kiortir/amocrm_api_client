@@ -28,7 +28,7 @@ def make_params(
         if not isinstance(filter, BaseFilter):
             raise ValueError("Аргумент filter должен быть типа BaseFilter")
 
-        filter = filter.dict()
+        filter = filter.dict(exclude_none=True)
 
 
     params = {
