@@ -95,6 +95,6 @@ class LeadsRepository(IPaginable[Lead], AbstractRepository):
             lambda: self._make_request_function.request(
                 method=RequestMethod.POST,
                 path=f"/api/v4/leads/notes",
-                json=[note.dict() for note in notes]
+                json=[note.dict(exclude_none=True) for note in notes]
             )
         )
