@@ -30,6 +30,7 @@ class TokenStorageImpl(ITokenStorage):
         self,
         backup_file_path: str = "backup.txt",
         encryption_key: str = "secret",
+        **_
     ) -> None:
         self.__backup_file_path = backup_file_path
         self.__encryption_key = encryption_key
