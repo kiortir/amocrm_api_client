@@ -22,9 +22,9 @@ class BaseTask(BaseModel):
     entity_id: int | None = None
     entity_type: str | None = None
     task_type_id: int | None = None
-    text: str | None = None
+    text: str
     duration: int | None = None
-    complete_till: datetime | None = None
+    complete_till: datetime
     result: TaskResult | None = None
 
     created_at: datetime | None = None
@@ -39,8 +39,6 @@ class Task(BaseTask):
     duration: int | None = None
     is_completed: bool | None = None
     task_type_id: int | None = None
-    text: str | None = None
-    complete_till: datetime | None = None
     account_id: int | None = None
 
 
