@@ -50,3 +50,6 @@ class RedisTokenStorageImpl(TokenStorageImpl):
 
         redis_client: aioredis.Redis
         encryption_key: str = "secret"
+
+        class Config:
+            arbitrary_types_allowed = True
