@@ -6,7 +6,7 @@ from .Catalog import Catalog
 from .Element import Element
 from .CatalogElement import CatalogElement
 from .lead import *
-from .Task import Task
+from .Task import Task, CreateTask
 from .Tag import Tag
 from .user import User
 from .Account import Account
