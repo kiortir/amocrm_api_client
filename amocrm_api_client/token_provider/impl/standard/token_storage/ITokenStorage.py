@@ -1,7 +1,8 @@
+from ..BaseTokenProviderConfig import BaseTokenProviderConfig
+
 __all__ = [
     "ITokenStorage",
 ]
-
 
 class ITokenStorage:
 
@@ -21,3 +22,10 @@ class ITokenStorage:
 
     async def clear(self) -> None:
         raise NotImplementedError()
+
+    class Config(BaseTokenProviderConfig):
+        ...
+
+
+
+

@@ -1,15 +1,15 @@
 from typing import Any
 from typing import Mapping
+from typing import Type
 
 from amocrm_api_client.make_json_request import MakeJsonRequestFunctionImpl
 
 from .StandardTokenProvider import StandardTokenProvider
-from .StandardTokenProviderConfig import StandardTokenProviderConfig
 from ..GetTokensByAuthCodeFunction import GetTokensByAuthCodeFunction
 from ..GetTokensByRefreshTokenFunction import GetTokensByRefreshTokenFunction
 from ...core import ITokenProvider
 
-from .token_storage import TokenStorageImpl
+from .token_storage import TokenStorageImpl, ITokenStorage
 
 __all__ = [
     "StandardTokenProviderFactory",
@@ -20,14 +20,11 @@ class StandardTokenProviderFactory:
 
     __slots__ = ()
 
-    def get_instance(self, settings: Mapping[str, Any]) -> ITokenProvider:
+    def get_instance(self, settings: Mapping[str, Any], token_storage_class: Type[ITokenStorage] = TokenStorageImpl) -> ITokenProvider:
 
-        config = StandardTokenProviderConfig(**settings)
+        config = token_storage_class.Config(**settings)
 
-        token_storage = TokenStorageImpl(
-            backup_file_path=config.backup_file_path,
-            encryption_key=config.encryption_key,
-        )
+        token_storage = token_storage_class(**config.dict())
 
         make_json_request_function = MakeJsonRequestFunctionImpl()
 

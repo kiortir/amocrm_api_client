@@ -2,7 +2,7 @@ from warnings import warn
 
 from amocrm_api_client.exceptions import AmocrmClientException
 
-from .StandardTokenProviderConfig import StandardTokenProviderConfig
+from .BaseTokenProviderConfig import BaseTokenProviderConfig
 from .token_storage import ITokenStorage
 
 from ...core import IGetTokensByAuthCodeFunction
@@ -28,7 +28,7 @@ class StandardTokenProvider(ITokenProvider):
 
     def __init__(
         self,
-        config: StandardTokenProviderConfig,
+        config: BaseTokenProviderConfig,
         get_tokens_by_auth_code: IGetTokensByAuthCodeFunction,
         get_tokens_by_refresh_token: IGetTokensByRefreshTokenFunction,
         token_storage: ITokenStorage,

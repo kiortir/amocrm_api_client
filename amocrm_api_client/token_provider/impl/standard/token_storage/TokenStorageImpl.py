@@ -1,15 +1,13 @@
 import os
 from time import time
-from typing import Any
-from typing import Mapping
+from typing import Any, Mapping
 
-from aiofile import async_open
 import jwt
+from aiofile import async_open
+from pydantic import BaseModel
 
-from .exceptions import TokenHasExpiredException
-from .exceptions import TokenIsMissingException
+from .exceptions import TokenHasExpiredException, TokenIsMissingException
 from .ITokenStorage import ITokenStorage
-
 
 __all__ = [
     "TokenStorageImpl",
@@ -39,7 +37,7 @@ class TokenStorageImpl(ITokenStorage):
     def __get_time(self) -> int:
         return int(time())
 
-    async def _save_data(self, data: Mapping[str, Any]) -> None:
+    async def _save_data(self, data: dict[str, Any]) -> None:
         encoded_str = jwt.encode(
             payload=data,
             key=self.__encryption_key,
@@ -49,14 +47,14 @@ class TokenStorageImpl(ITokenStorage):
         async with async_open(self.__backup_file_path, "w") as afp:
             await afp.write(encoded_str)
 
-    async def _recover_data(self) -> Mapping[str, Any]:
+    async def _recover_data(self) -> dict[str, Any]:
         if not os.path.exists(self.__backup_file_path):
             return dict()
 
         async with async_open(self.__backup_file_path, "r") as afp:
             encoded_str = await afp.readline()
 
-        data: Mapping[str, Any] = jwt.decode(
+        data: dict[str, Any] = jwt.decode(
             jwt=encoded_str,
             key=self.__encryption_key,
             algorithms=["HS256"],
@@ -107,3 +105,7 @@ class TokenStorageImpl(ITokenStorage):
 
     async def clear(self) -> None:
         os.remove(self.__backup_file_path)
+
+    class Config(ITokenStorage.Config):
+        backup_file_path: str = "backup.txt"
+        encryption_key: str = "secret"
