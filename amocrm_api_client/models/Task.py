@@ -1,7 +1,6 @@
 from datetime import (
     datetime
 )
-from typing import Optional
 
 from pydantic import (
     BaseModel
@@ -10,22 +9,45 @@ from pydantic import (
 
 __all__ = [
     "Task",
+    "CreateTask"
 ]
 
 
-class Task(BaseModel):
+class TaskResult(BaseModel):
+    text: str
+
+
+class BaseTask(BaseModel):
+    responsible_user_id: int | None = None
+    entity_id: int | None = None
+    entity_type: str | None = None
+    task_type_id: int | None = None
+    text: str | None = None
+    duration: int | None = None
+    complete_till: datetime | None = None
+    result: TaskResult | None = None
+
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class Task(BaseTask):
     id: int
-    created_by: Optional[int] = None
-    updated_by: Optional[int] = None
-    created_at: datetime
-    updated_at: datetime
-    responsible_user_id: Optional[int] = None
-    group_id: Optional[int] = None
-    entity_id: Optional[int] = None
-    entity_type: Optional[str] = None
-    duration: Optional[int] = None
-    is_completed: Optional[bool] = None
-    task_type_id: Optional[int] = None
-    text: Optional[str] = None
-    complete_till: Optional[datetime] = None
-    account_id: Optional[int] = None
+    created_by: int | None = None
+    updated_by: int | None = None
+    group_id: int | None = None
+    duration: int | None = None
+    is_completed: bool | None = None
+    task_type_id: int | None = None
+    text: str | None = None
+    complete_till: datetime | None = None
+    account_id: int | None = None
+
+
+class CreateTask(BaseTask):
+    request_id: str | None = None
+
+    class Config:
+        json_encoders = {
+            datetime: lambda v: int(v.timestamp()),
+        }

@@ -19,7 +19,7 @@ install_requires = [
     'yarl>=1.7.2',
     'PyJWT~=2.3.0',
     'aiofile~=3.7.3',
-    'qsparser==1.1.0'
+    'qsparser>=1.1.0'
 ]
 
 
@@ -63,7 +63,8 @@ setup(
         "docs": docs_requires,
     },
     classifiers=[
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
+        # 'Programming Language :: Python :: 3.8',
+        # 'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.11',
     ],
 )

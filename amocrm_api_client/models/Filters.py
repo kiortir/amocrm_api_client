@@ -7,17 +7,20 @@ class RangeFilterValues(BaseModel):
     to: int
 
 
-class BaseFilter(BaseModel):
-
+class BareBoneFilter(BaseModel):
     id: int | list[int] | None = None
+    responsible_user_id: int | list[int] | None = None
+    updated_at: int | RangeFilterValues | None = None
+
+
+class BaseFilter(BareBoneFilter):
+
     name: str | list[str] | None = None
 
     created_by: int | list[int] | None = None
     updated_by: int | list[int] | None = None
-    responsible_user_id: int | list[int] | None = None
 
     created_at: RangeFilterValues | None = None
-    updated_at: RangeFilterValues | None = None
 
     closest_task_at: RangeFilterValues | None = None
 
@@ -39,6 +42,12 @@ class LeadListFilter(BaseFilter):
 
 class CompanyListFilter(BaseFilter):
     ...
+
+
+class TaskListFilter(BareBoneFilter):
+    is_completed: bool | None
+    task_type: int | list[int] | None
+    entity_type: str | None
 
 
 class CustomersListFilter(BaseFilter):
