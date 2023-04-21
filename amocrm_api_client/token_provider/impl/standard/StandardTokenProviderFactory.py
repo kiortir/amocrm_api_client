@@ -26,7 +26,7 @@ class StandardTokenProviderFactory:
         **kwargs
     ) -> ITokenProvider:
         config = token_storage_class.Config(**settings)
-
+        print((config.dict() | kwargs))
         token_storage = token_storage_class(**(config.dict() | kwargs))
 
         make_json_request_function = MakeJsonRequestFunctionImpl()
