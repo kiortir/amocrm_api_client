@@ -17,14 +17,17 @@ __all__ = [
 
 
 class StandardTokenProviderFactory:
-
     __slots__ = ()
 
-    def get_instance(self, settings: Mapping[str, Any], token_storage_class: Type[ITokenStorage] = TokenStorageImpl) -> ITokenProvider:
-
+    def get_instance(
+        self,
+        settings: Mapping[str, Any],
+        token_storage_class: Type[ITokenStorage] = TokenStorageImpl,
+        **kwargs
+    ) -> ITokenProvider:
         config = token_storage_class.Config(**settings)
 
-        token_storage = token_storage_class(**config.dict())
+        token_storage = token_storage_class(**(config.dict() | kwargs))
 
         make_json_request_function = MakeJsonRequestFunctionImpl()
 
@@ -32,8 +35,10 @@ class StandardTokenProviderFactory:
             make_json_request_function=make_json_request_function,
         )
 
-        get_tokens_by_refresh_token_function = GetTokensByRefreshTokenFunction(
-            make_json_request_function=make_json_request_function,
+        get_tokens_by_refresh_token_function = (
+            GetTokensByRefreshTokenFunction(
+                make_json_request_function=make_json_request_function,
+            )
         )
 
         token_provider = StandardTokenProvider(
